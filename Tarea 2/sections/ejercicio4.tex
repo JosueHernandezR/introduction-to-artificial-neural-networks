@@ -1,0 +1,38 @@
+\section{RNA Compuesta}
+Dada la siguiente tabla con dos clases A y B:
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|
+    >{\columncolor[HTML]{3166FF}}l |l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+    {\color[HTML]{FFFFFF} 12} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 11} &  &  &  &  &  & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} A} &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 10} &  &  &  & \cellcolor[HTML]{FFFFFF} &  &  & \cellcolor[HTML]{FFFFFF} &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 9} &  &  & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} A} &  &  &  &  & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} B} &  & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} B} &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 8} &  &  &  &  &  &  &  &  & \cellcolor[HTML]{FFFFFF} &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 7} &  & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} A} &  &  & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} B} &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 6} &  & \cellcolor[HTML]{FFFFFF} &  &  &  &  &  & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} B} &  & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} B} &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 5} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 4} &  &  &  & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} A} &  &  & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} A} &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 3} &  &  &  &  &  & \cellcolor[HTML]{FFFFFF} &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 2} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 1} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 0} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 1} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 2} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 3} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 4} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 5} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 6} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 7} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 8} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 9} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 10} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 11} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 12} \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item Entrene una RNA compuesta con una capa intermedia con 2 perceptrones sigmoidales y una neurona en la salida también tipo sigmoidal. Use la regla BP. Proponga un conjunto de pesos para la red y un $\alpha$. Muestre el conjunto final de pesos final.
+	\item Use la RNA entrenada para determinar la clase A o B de los puntos con coordenadas $\left(3,7\right)$ y $\left(6,8\right)$.
+	\item Muestre que la capa interna de la RNA convierte el problema no lineal a uno lineal al mapear los puntos A y B en el espacio de las salidas de las 2 neuronas intermedias $s_1$,$s_2$.
+\end{itemize}
+
+
+\newpage
+\subsection{Desarrollo de Sigmoide}
+\input{sections/RNACompuesta/RNACompuesta.tex}
+\clearpage
