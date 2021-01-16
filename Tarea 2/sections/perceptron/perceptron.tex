@@ -1,0 +1,653 @@
+
+
+    
+\begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Importando librerías}
+
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{time}
+\PY{n}{err\PYZus{}vector} \PY{o}{=} \PY{p}{[}\PY{p}{]} \PY{c+c1}{\PYZsh{}vector de error}
+\PY{n}{w\PYZus{}f} \PY{o}{=} \PY{p}{[}\PY{p}{]} \PY{c+c1}{\PYZsh{}vector de pesos finales}
+\PY{c+c1}{\PYZsh{}Entradas}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}
+    \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{,}
+    \PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{,}
+    \PY{p}{[}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}
+    \PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}
+    \PY{p}{[}\PY{l+m+mi}{7}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}
+    \PY{p}{[}\PY{l+m+mi}{9}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{]}
+\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Entradas: }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{x}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Entradas:
+[[ 2  6]
+ [ 4  4]
+ [ 6  3]
+ [ 4 10]
+ [ 7 10]
+ [ 9  8]]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Targets}
+\PY{n}{t} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}
+    \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Objetivos: }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{t}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Objetivos:
+[[0]
+ [0]
+ [0]
+ [1]
+ [1]
+ [1]]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}bias}
+\PY{n}{bias} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{shape}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{c+c1}{\PYZsh{}[0] \PYZhy{}\PYZgt{} columnas [1] \PYZhy{}\PYZgt{} filas}
+\PY{n}{bias} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{ones}\PY{p}{(}\PY{p}{(}\PY{n}{bias}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{bias:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{bias}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+bias:
+ [[-1.]
+ [-1.]
+ [-1.]
+ [-1.]
+ [-1.]
+ [-1.]]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Vector aumentado}
+\PY{c+c1}{\PYZsh{}Se tiene que usar el bias}
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{[}\PY{n}{x}\PY{p}{,} \PY{n}{bias}\PY{p}{]}\PY{p}{,} \PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Vector aumentado: }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{x}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Vector aumentado:
+ [[ 2.  6. -1.]
+ [ 4.  4. -1.]
+ [ 6.  3. -1.]
+ [ 4. 10. -1.]
+ [ 7. 10. -1.]
+ [ 9.  8. -1.]]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Pesos}
+\PY{n}{w\PYZus{}i} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mf}{0.25}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mf}{0.25}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mf}{1.0}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pesos:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{w\PYZus{}i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Pesos:
+ [[0.25]
+ [0.25]
+ [1.  ]]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{0.25}
+\PY{c+c1}{\PYZsh{}Tiempo}
+\PY{n}{tic} \PY{o}{=}  \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}Se inicia cronometro}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Regla del perceptron}
+\PY{n}{a} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{w\PYZus{}i}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{a: }\PY{l+s+si}{\PYZob{}}\PY{n}{a}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+a: [[1.  ]
+ [1.  ]
+ [1.25]
+ [2.5 ]
+ [3.25]
+ [3.25]]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Funciòn limite duro}
+\PY{n}{y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{uint32}\PY{p}{(}\PY{n}{a} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}}\PY{n}{y}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+y:
+ [[1]
+ [1]
+ [1]
+ [1]
+ [1]
+ [1]]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Función de costo \PYZhy{}\PYZhy{} MSE Error cuadrático medio}
+\PY{n}{err} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{t} \PY{o}{\PYZhy{}} \PY{n}{y}\PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{y}\PY{p}{)}
+\PY{n}{err\PYZus{}vector}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{err}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{err\PYZus{}vector}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{epoch} \PY{o}{=} \PY{l+m+mi}{0}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Error:
+[array([0.5])]
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{while}\PY{p}{(}\PY{n+nb}{sum}\PY{p}{(}\PY{n}{y} \PY{o}{!=} \PY{n}{t}\PY{p}{)}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}mientras la salida de la RNA no sea igual al target}
+  \PY{n}{epoch} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+  \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Epoca: }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+  \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{shape}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}Repetir segun la cantidad de filas de x}
+    \PY{c+c1}{\PYZsh{} Producto punto}
+    \PY{n}{a} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{w\PYZus{}i}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{}Limite Duro}
+    \PY{n}{y}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{uint32}\PY{p}{(}\PY{n}{a} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Actualización de pesos}
+    \PY{n}{x\PYZus{}p} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{w\PYZus{}i}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}REACOMODA np.reshape(matriz,(filas,columnas))}
+    \PY{n}{w\PYZus{}n} \PY{o}{=} \PY{n}{w\PYZus{}i} \PY{o}{+} \PY{n}{alpha} \PY{o}{*} \PY{p}{(}\PY{n}{t}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{y}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{n}{x\PYZus{}p}
+    \PY{n}{w\PYZus{}i} \PY{o}{=} \PY{n}{w\PYZus{}n}
+    \PY{c+c1}{\PYZsh{}print(f\PYZdq{}Peso nuevo:\PYZbs{}n\PYZob{}w\PYZus{}i\PYZcb{}\PYZbs{}n\PYZdq{})}
+ 
+  \PY{c+c1}{\PYZsh{} Función de costo \PYZhy{}\PYZhy{} MSE Error cuadrático medio}
+  \PY{n}{err} \PY{o}{=} \PY{n+nb}{sum}\PY{p}{(}\PY{p}{(}\PY{n}{t} \PY{o}{\PYZhy{}} \PY{n}{y}\PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{y}\PY{p}{)}
+  \PY{n}{err\PYZus{}vector}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{err}\PY{p}{)}
+  \PY{c+c1}{\PYZsh{}print(f\PYZdq{}Error:\PYZbs{}n\PYZob{}err\PYZcb{}\PYZbs{}n\PYZdq{})}
+
+  \PY{c+c1}{\PYZsh{}Se añade al vector de pesos}
+  \PY{n}{w\PYZus{}f}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{w\PYZus{}i}\PY{p}{)}
+  \PY{c+c1}{\PYZsh{}print(f\PYZdq{}Vector de Pesos Finales:\PYZbs{}n\PYZob{}w\PYZus{}f\PYZcb{}\PYZbs{}n\PYZdq{})}
+
+
+\PY{n}{toc} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{}Paro cronometro}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoca: 1
+
+Error:
+[0.33333333]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]])]
+
+Epoca: 2
+
+Error:
+[0.33333333]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]])]
+
+Epoca: 3
+
+Error:
+[0.5]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]])]
+
+Epoca: 4
+
+Error:
+[0.5]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]])]
+
+Epoca: 5
+
+Error:
+[0.5]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]])]
+
+Epoca: 6
+
+Error:
+[0.33333333]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]]), array([[1.5 ],
+       [2.75],
+       [1.75]])]
+
+Epoca: 7
+
+Error:
+[0.5]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]]), array([[1.5 ],
+       [2.75],
+       [1.75]]), array([[2.25],
+       [2.25],
+       [2.  ]])]
+
+Epoca: 8
+
+Error:
+[0.66666667]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]]), array([[1.5 ],
+       [2.75],
+       [1.75]]), array([[2.25],
+       [2.25],
+       [2.  ]]), array([[0.25],
+       [1.5 ],
+       [2.5 ]])]
+
+Epoca: 9
+
+Error:
+[0.33333333]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]]), array([[1.5 ],
+       [2.75],
+       [1.75]]), array([[2.25],
+       [2.25],
+       [2.  ]]), array([[0.25],
+       [1.5 ],
+       [2.5 ]]), array([[0.75],
+       [2.5 ],
+       [2.5 ]])]
+
+Epoca: 10
+
+Error:
+[0.5]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]]), array([[1.5 ],
+       [2.75],
+       [1.75]]), array([[2.25],
+       [2.25],
+       [2.  ]]), array([[0.25],
+       [1.5 ],
+       [2.5 ]]), array([[0.75],
+       [2.5 ],
+       [2.5 ]]), array([[0.25],
+       [2.5 ],
+       [2.75]])]
+
+Epoca: 11
+
+Error:
+[0.5]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]]), array([[1.5 ],
+       [2.75],
+       [1.75]]), array([[2.25],
+       [2.25],
+       [2.  ]]), array([[0.25],
+       [1.5 ],
+       [2.5 ]]), array([[0.75],
+       [2.5 ],
+       [2.5 ]]), array([[0.25],
+       [2.5 ],
+       [2.75]]), array([[-0.25],
+       [ 2.5 ],
+       [ 3.  ]])]
+
+Epoca: 12
+
+Error:
+[0.33333333]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]]), array([[1.5 ],
+       [2.75],
+       [1.75]]), array([[2.25],
+       [2.25],
+       [2.  ]]), array([[0.25],
+       [1.5 ],
+       [2.5 ]]), array([[0.75],
+       [2.5 ],
+       [2.5 ]]), array([[0.25],
+       [2.5 ],
+       [2.75]]), array([[-0.25],
+       [ 2.5 ],
+       [ 3.  ]]), array([[1.5],
+       [3. ],
+       [3. ]])]
+
+Epoca: 13
+
+Error:
+[0.33333333]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]]), array([[1.5 ],
+       [2.75],
+       [1.75]]), array([[2.25],
+       [2.25],
+       [2.  ]]), array([[0.25],
+       [1.5 ],
+       [2.5 ]]), array([[0.75],
+       [2.5 ],
+       [2.5 ]]), array([[0.25],
+       [2.5 ],
+       [2.75]]), array([[-0.25],
+       [ 2.5 ],
+       [ 3.  ]]), array([[1.5],
+       [3. ],
+       [3. ]]), array([[0. ],
+       [0.5],
+       [3.5]])]
+
+Epoca: 14
+
+Error:
+[0.]
+
+Vector de Pesos Finales:
+[array([[0.75],
+       [1.25],
+       [1.  ]]), array([[1.25],
+       [2.25],
+       [1.  ]]), array([[0.75],
+       [2.25],
+       [1.25]]), array([[0.25],
+       [2.25],
+       [1.5 ]]), array([[-0.25],
+       [ 2.25],
+       [ 1.75]]), array([[1.5 ],
+       [2.75],
+       [1.75]]), array([[2.25],
+       [2.25],
+       [2.  ]]), array([[0.25],
+       [1.5 ],
+       [2.5 ]]), array([[0.75],
+       [2.5 ],
+       [2.5 ]]), array([[0.25],
+       [2.5 ],
+       [2.75]]), array([[-0.25],
+       [ 2.5 ],
+       [ 3.  ]]), array([[1.5],
+       [3. ],
+       [3. ]]), array([[0. ],
+       [0.5],
+       [3.5]]), array([[0. ],
+       [0.5],
+       [3.5]])]
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Plotting Error \PYZhy{}\PYZhy{} Graph}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{err\PYZus{}vector}\PY{p}{,} \PY{n}{linewidth} \PY{o}{=} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gráfica de error: REGLA PERCEPTRON}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Magnitud de Error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Épocas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{err\PYZus{}vector}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s} \PY{o}{=} \PY{l+m+mi}{200}\PY{p}{,} \PY{n}{marker} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{0.8}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plotting Decision Boundaries}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{15.0}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{15.0}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{patterns} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{n}{t}\PY{p}{)} \PY{c+c1}{\PYZsh{}Encuentra los elementos únicos de la matriz t}
+
+\PY{k}{for} \PY{n}{patt} \PY{o+ow}{in} \PY{n}{patterns}\PY{p}{:}
+  \PY{n}{pos} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{patt} \PY{o}{==} \PY{n}{t}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{c+c1}{\PYZsh{} np.where(TRUE)[0]}
+  \PY{k}{if} \PY{n}{patt} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{n}{pos}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x}\PY{p}{[}\PY{n}{pos}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s} \PY{o}{=} \PY{l+m+mi}{200}\PY{p}{,} \PY{n}{marker} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{0.8}\PY{p}{)}
+  \PY{k}{else}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{n}{pos}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x}\PY{p}{[}\PY{n}{pos}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s} \PY{o}{=} \PY{l+m+mi}{200}\PY{p}{,} \PY{n}{marker} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{0.8}\PY{p}{)}
+
+\PY{n}{x1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{)}
+\PY{n}{x2} \PY{o}{=} \PY{n}{w\PYZus{}i}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{/} \PY{n}{w\PYZus{}i}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{x1} \PY{o}{*} \PY{n}{w\PYZus{}i}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{n}{w\PYZus{}i}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x1}\PY{p}{,} \PY{n}{x2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth} \PY{o}{=} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fronteras de decisión: REGLA DEL PERCEPTRON}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{sections/perceptron/output_10_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{sections/perceptron/output_10_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Pesos Finales}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Pesos finales: }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+    \PY{n}{res} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{w\PYZus{}i}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} Displaying Results}
+\PY{n}{a} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{w\PYZus{}i}\PY{p}{)}
+\PY{n}{y}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{uint32}\PY{p}{(}\PY{n}{a} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{0}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{REGLA DEL PERCEPTRON}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Meta:    Predicción:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{res} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{t}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{y}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Tiempo requerido: }\PY{l+s+si}{\PYZob{}}\PY{n}{toc} \PY{o}{\PYZhy{}} \PY{n}{tic}\PY{l+s+si}{:}\PY{l+s+s1}{.5f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ ms.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Épocas requeridas: }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Pesos finales:
+[[0. ]
+ [0.5]
+ [3.5]]
+
+REGLA DEL PERCEPTRON
+Meta:    Predicción:
+[0]--------[0]
+[0]--------[0]
+[0]--------[0]
+[1]--------[1]
+[1]--------[1]
+[1]--------[1]
+
+Tiempo requerido: 0.09200 ms.
+
+Épocas requeridas: 14.
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Prueba}
+\PY{c+c1}{\PYZsh{} Plotting Decision Boundaries}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{15.0}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{15.0}\PY{p}{]}\PY{p}{)}
+
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{n}{color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s} \PY{o}{=} \PY{l+m+mi}{200}\PY{p}{,} \PY{n}{marker} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{0.8}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{,} \PY{n}{color} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s} \PY{o}{=} \PY{l+m+mi}{200}\PY{p}{,} \PY{n}{marker} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{0.8}\PY{p}{)}
+
+\PY{n}{x1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{)}
+\PY{n}{x2} \PY{o}{=} \PY{n}{w\PYZus{}i}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{/} \PY{n}{w\PYZus{}i}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{x1} \PY{o}{*} \PY{n}{w\PYZus{}i}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{n}{w\PYZus{}i}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x1}\PY{p}{,} \PY{n}{x2}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth} \PY{o}{=} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Prueba del PERCEPTRÓN}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{sections/perceptron/output_12_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    % Add a bibliography block to the postdoc
