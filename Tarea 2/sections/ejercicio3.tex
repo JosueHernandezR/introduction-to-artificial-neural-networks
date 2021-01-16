@@ -1,4 +1,4 @@
-\section{Perceptrón}
+\section{Sigmoide}
 Dada la siguiente tabla con dos clases A y B:
 
 % Please add the following required packages to your document preamble:
@@ -26,12 +26,15 @@ Dada la siguiente tabla con dos clases A y B:
 \end{table}
 
 \begin{itemize}
-    \item Entrene un perceptrón con función de activación limitadora y con bias mediante la regla del perceptrón. Proponga una vector de pesos iniciales $W_0=(w_1,w_2,w_3 )^T$ y un $\alpha$. Muestre la línea inicial, el vector de pesos final, así como la línea de separación final.
+    \item a)	Entrene un perceptrón con función de activación sigmoidal y con bias mediante la regla DELTA adaptada. Proponga una vector de pesos iniciales $W_0=(w_1,w_2,w_3 )^T$ y un $\alpha$. Muestre la línea inicial, el vector de pesos final, así como la línea de separación final.
 	\item Use el perceptrón entrenado para determinar la clase A o B de los puntos con coordenadas (5,5) y (6,8).
 \end{itemize}
 
+Con base a lo aprendido en el ejercicio 2, no hubo detalle alguno sobre el acomodo de los datos. 
+\\
+Por otro lado, he notado como el uso de las funciones de activación y las reglas aplicadas, por sencillas que puedan ser, la diferencia es notable, tanto en el uso de recursos y el tiempo en resolver el problema, ya que hasta cierto punto, a un mayor número de épocas el cambio en los pesos de la neurona ya no hay cambios sustanciales.
 
 \newpage
-\subsection{Desarrollo del perceptrón}
+\subsection{Desarrollo de Sigmoide}
 \input{sections/sigmoide/sigmoide.tex}
 \clearpage
