@@ -1,0 +1,37 @@
+\section{Perceptrón}
+Dada la siguiente tabla con dos clases A y B:
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|
+    >{\columncolor[HTML]{3166FF}}l |l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+    {\color[HTML]{FFFFFF} 12} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 11} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 10} &  &  &  & \cellcolor[HTML]{FE0000}B &  &  & \cellcolor[HTML]{FE0000}B &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 9} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 8} &  &  &  &  &  &  &  &  & \cellcolor[HTML]{FE0000}B &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 7} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 6} &  & \cellcolor[HTML]{34FF34}A &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 5} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 4} &  &  &  & \cellcolor[HTML]{34FF34}A &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 3} &  &  &  &  &  & \cellcolor[HTML]{34FF34}A &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 2} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 1} &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
+    {\color[HTML]{FFFFFF} 0} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 1} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 2} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 3} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 4} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 5} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 6} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 7} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 8} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 9} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 10} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 11} & \cellcolor[HTML]{3166FF}{\color[HTML]{FFFFFF} 12} \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item Entrene un perceptrón con función de activación limitadora y con bias mediante la regla del perceptrón. Proponga una vector de pesos iniciales $W_0=(w_1,w_2,w_3 )^T$ y un $\alpha$. Muestre la línea inicial, el vector de pesos final, así como la línea de separación final.
+	\item Use el perceptrón entrenado para determinar la clase A o B de los puntos con coordenadas (5,5) y (6,8).
+\end{itemize}
+
+
+\newpage
+\subsection{Desarrollo del perceptrón}
+\input{sections/sigmoide/sigmoide.tex}
+\clearpage
