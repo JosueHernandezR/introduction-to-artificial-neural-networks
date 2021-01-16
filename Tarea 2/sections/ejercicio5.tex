@@ -1,0 +1,44 @@
+\section{Red Neuronal Convulacional}
+Considere las imágenes $I_1$, $I_2$ de los siguientes dos objetos. Se trata de 2 objetos en diagonal. 
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{lllllllllllllll}
+        0 & 0 & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & \cellcolor[HTML]{CB0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 &  & 0 & 0 & \cellcolor[HTML]{CB0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & \cellcolor[HTML]{CB0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 & 0 &  & 0 & 0 & 0 & \cellcolor[HTML]{CB0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 & 0 \\
+        0 & 0 & \cellcolor[HTML]{CB0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & 0 & \cellcolor[HTML]{CB0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & 0 & 0 & 0 & 0
+        \end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item Con base en lo visto en clase, aplique una red neuronal convolucional con 2 convolucionadores, una etapa de reducción. Considerando que obtendrá 2 vectores descriptores, V_1, V_2, uno para cada objeto, muestre los dos vectores suponiendo los siguientes convolucionadores:
+    $C_1=\left(\begin{matrix}-1&-1&0\\-1&0&1\\0&1&1\\\end{matrix}\right) y C_2=\left(\begin{matrix}0&1&1\\-1&0&1\\-1&-1&0\\\end{matrix}\right)$
+    \item Con estos dos vectores $V_1$, $V_2$, entrene una neurona ADALINE para determinar la clase pertenencia de cualquiera de las dos imágenes de entrada. Esto supone que su problema de clasificación es lineal.
+    \item Considera ahora las siguientes dos imágenes de los mismos objetos, pero sujetos a una translación en el plano. Demuestre que la misma Red Neuronal Convolucional (RNC) es capaz de determinar con precisión la clase de pertenencia de los dos objetos. En otras palabras, la RNC es invariante a traslaciones.
+\end{itemize}
+
+\begin{table}[!htb]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+        \hline
+        0 & 0 & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+        0 & 0 & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 & 0 \\ \hline
+        0 & 0 & 0 & 0 & \cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} 0} & 0 & 0 &  & 0 & 0 & \cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} 0} & 0 & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 \\ \hline
+        0 & 0 & 0 & \cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} 0} & 0 & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} 1} & 0 &  & 0 & 0 & 0 & \cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} 0} & 0 & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} 1} & 0 \\ \hline
+        0 & 0 & \cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} 0} & 0 & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 &  & 0 & 0 & 0 & 0 & \cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} 0} & 0 & 0 \\ \hline
+        0 & 0 & 0 & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} 1} & 0 & 0 & 0 &  & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+        0 & 0 & 0 & 0 & 0 & 0 & 0 &  & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+        \end{tabular}
+\end{table}
+
+\newpage
+\subsection{Desarrollo de RNA compuesta}
+\input{sections/RNAConvolucional/RNC5.tex}
+\clearpage
